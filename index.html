@@ -1,1 +1,193 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mahmud Hasan - Portfolio & Game</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0d0d0d;
+      color: #fff;
+      scroll-behavior: smooth;
+    }
+    header, footer {
+      text-align: center;
+      padding: 2rem;
+    }
+    nav {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 1rem;
+    }
+    .dark-toggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: #fff;
+      color: #000;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .profile {
+      text-align: center;
+    }
+    .profile img {
+      width: 150px;
+      border-radius: 50%;
+    }
+    section {
+      padding: 2rem;
+    }
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+    .projects div {
+      background: #1e1e1e;
+      padding: 1rem;
+      border-radius: 10px;
+    }
+    canvas {
+      display: block;
+      margin: auto;
+      background: #111;
+      border: 2px solid white;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 400px;
+      margin: auto;
+    }
+    input, textarea, button {
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+    }
+    .touch-controls {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 1rem;
+    }
+    .touch-controls button {
+      padding: 15px 20px;
+      font-size: 18px;
+      border-radius: 10px;
+      border: none;
+      background: #444;
+      color: #fff;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="dark-toggle" onclick="toggleDarkMode()">🌙</div>  <header>
+    <h1>Mahmud Hasan</h1>
+    <p>Creative Designer & Video Editor</p>
+  </header>  <nav>
+    <a href="#game">🎮 Game</a>
+    <a href="#projects">🎨 Projects</a>
+    <a href="#contact">📬 Contact</a>
+  </nav>  <section class="profile">
+    <img src="profile.jpg" alt="Mahmud's Profile">
+    <p><a href="mailto:mahmudhasan6595@gmail.com">📧 Gmail</a> | <a href="https://instagram.com/mahmud.hasan_08">📷 Instagram</a></p>
+  </section>  <section id="game">
+    <h2>🎮 Fight Game</h2>
+    <button onclick="startGame()">Start Game</button>
+    <canvas id="gameCanvas" width="500" height="300"></canvas><div class="touch-controls">
+  <button onclick="dx = -3">⬅️</button>
+  <button onclick="dx = 3">➡️</button>
+  <button onclick="if(y >= 250) dy = -10">⬆️</button>
+  <button onmousedown="punch = true" onmouseup="punch = false">🥊</button>
+</div>
 
+<p style="text-align:center">Controls: W (Jump), A (Left), D (Right), Space (Punch)</p>
+
+  </section>  <section id="projects">
+    <h2>🎨 My Projects</h2>
+    <div class="projects">
+      <div>Video Edit: Horror Short</div>
+      <div>Logo Design: Tech Brand</div>
+      <div>Thumbnail: Emotional Story</div>
+    </div>
+  </section>  <section id="contact">
+    <h2>📬 Contact Me</h2>
+    <form action="mailto:mahmudhasan6595@gmail.com" method="POST" enctype="text/plain">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <textarea name="message" placeholder="Your Message" rows="4"></textarea>
+      <button type="submit">Send</button>
+    </form>
+  </section>  <footer>
+    <p>© 2025 Mahmud Hasan. All rights reserved.</p>
+  </footer>  <script>
+    let dark = false;
+    function toggleDarkMode() {
+      dark = !dark;
+      document.body.style.background = dark ? '#fff' : '#0d0d0d';
+      document.body.style.color = dark ? '#000' : '#fff';
+    }
+
+    let x = 230, y = 250, dx = 0, dy = 0, punch = false, health = 100, score = 0, timer = 30;
+    function startGame() {
+      const c = document.getElementById("gameCanvas");
+      const ctx = c.getContext("2d");
+      document.addEventListener('keydown', e => {
+        if (e.key === 'a') dx = -3;
+        if (e.key === 'd') dx = 3;
+        if (e.key === 'w' && y >= 250) dy = -10;
+        if (e.key === ' ') punch = true;
+      });
+      document.addEventListener('keyup', e => {
+        if (e.key === 'a' || e.key === 'd') dx = 0;
+        if (e.key === ' ') punch = false;
+      });
+      let enemyX = 50;
+      function draw() {
+        ctx.clearRect(0, 0, 500, 300);
+        // player
+        ctx.fillStyle = "cyan";
+        ctx.fillRect(x, y, 40, 40);
+        if (punch) {
+          ctx.fillStyle = "red";
+          ctx.fillRect(x+40, y+15, 10, 10);
+        }
+        // enemy
+        ctx.fillStyle = "orange";
+        ctx.fillRect(enemyX, 250, 40, 40);
+        // health
+        ctx.fillStyle = "lime";
+        ctx.fillRect(10, 10, health, 10);
+        // score & timer
+        ctx.fillStyle = "white";
+        ctx.fillText("Score: " + score, 400, 20);
+        ctx.fillText("Time: " + timer, 400, 40);
+
+        // logic
+        x += dx;
+        y += dy;
+        if (y < 250) dy += 1; else dy = 0, y = 250;
+
+        // hit check
+        if (punch && x+50 > enemyX && x < enemyX+40) {
+          score += 1;
+          enemyX = Math.random()*400;
+        }
+        if (--timer <= 0) return ctx.fillText("Game Over", 200, 150);
+        requestAnimationFrame(draw);
+      }
+      draw();
+    }
+  </script></body>
+</html>
