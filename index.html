@@ -326,3 +326,147 @@
     draw();
   </script></body>
 </html>
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fight Game by Mahmud</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: white;
+      font-family: sans-serif;
+      overflow: hidden;
+    }
+    #gameCanvas {
+      display: block;
+      margin: 0 auto;
+      background: url('bg1.jpg') center center / cover;
+      border: 2px solid white;
+    }
+    #startBtn, .controls {
+      text-align: center;
+      margin-top: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="startBtn">
+    <button onclick="startGame()">Start Game</button>
+  </div>
+  <canvas id="gameCanvas" width="600" height="300"></canvas>
+  <div class="controls">
+    <button onclick="dx = -3">⬅️</button>
+    <button onclick="dx = 3">➡️</button>
+    <button onclick="if (y >= ground) dy = -12; playSound(jumpSound)">⬆️</button>
+    <button onmousedown="punch = true; playSound(punchSound)" onmouseup="punch = false">🥊</button>
+  </div><audio id="bgMusic" src="bgmusic.mp3" loop autoplay></audio> <audio id="punchSound" src="punch.mp3"></audio> <audio id="jumpSound" src="jump.mp3"></audio>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const bgMusic = document.getElementById('bgMusic');
+    const punchSound = document.getElementById('punchSound');
+    const jumpSound = document.getElementById('jumpSound');
+
+    let x = 50, y = 250, dx = 0, dy = 0;
+    let ex = 500, ey = 250, edx = -2;
+    let health = 100, score = 0, level = 1;
+    let punch = false, gameRunning = false;
+    const ground = 250;
+
+    function playSound(sound) {
+      sound.currentTime = 0;
+      sound.play();
+    }
+
+    function startGame() {
+      gameRunning = true;
+      document.getElementById('startBtn').style.display = 'none';
+      bgMusic.play();
+      draw();
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'a') dx = -3;
+      if (e.key === 'd') dx = 3;
+      if (e.key === 'w' && y >= ground) {
+        dy = -12;
+        playSound(jumpSound);
+      }
+      if (e.key === ' ') {
+        punch = true;
+        playSound(punchSound);
+      }
+    });
+
+    document.addEventListener('keyup', e => {
+      if (e.key === 'a' || e.key === 'd') dx = 0;
+      if (e.key === ' ') punch = false;
+    });
+
+    function resetEnemy() {
+      ex = 600;
+      ey = 250;
+      edx = -2 - level;
+    }
+
+    function levelUp() {
+      level++;
+      score = 0;
+      health = 100;
+      canvas.style.backgroundImage = `url('bg${level}.jpg')`;
+    }
+
+    function draw() {
+      if (!gameRunning) return;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const playerImg = new Image();
+      playerImg.src = `player${level}.png`;
+      const enemyImg = new Image();
+      enemyImg.src = `enemy${level}.png`;
+
+      // Draw Player
+      ctx.drawImage(playerImg, x, y, 40, 40);
+      if (punch) ctx.fillRect(x + 40, y + 10, 10, 10);
+
+      // Draw Enemy
+      ctx.drawImage(enemyImg, ex, ey, 40, 40);
+
+      // Move logic
+      x += dx;
+      y += dy;
+      if (y < ground) dy += 1; else dy = 0, y = ground;
+
+      // Enemy AI
+      ex += edx;
+      if (Math.random() < 0.01) ey -= 15; // jump
+      if (ey < ground) ey += 1;
+
+      if (ex < -40) resetEnemy();
+
+      // Collision
+      if (x + 40 > ex && x < ex + 40 && Math.abs(y - ey) < 40) {
+        if (punch) {
+          score++;
+          if (score >= 5) levelUp();
+          resetEnemy();
+        } else {
+          health -= 1;
+          if (health <= 0) {
+            alert("Game Over!");
+            location.reload();
+          }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+  </script></body>
+</html>
