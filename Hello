@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mahmud Hasan - Portfolio</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #1f1c2c, #928dab);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+    }
+    .container {
+      padding: 20px;
+      max-width: 900px;
+      text-align: center;
+    }
+    img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 3px solid white;
+      margin-top: 20px;
+    }
+    h1::after {
+      content: '|';
+      animation: blink 0.7s infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    h1 {
+      font-size: 2rem;
+      margin: 20px 0;
+    }
+    .btn {
+      display: inline-block;
+      background-color: transparent;
+      border: 1px solid white;
+      padding: 10px 15px;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      margin: 5px;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background-color: white;
+      color: black;
+    }
+    .section {
+      margin: 30px 0;
+    }
+    iframe {
+      border: none;
+      width: 100%;
+      max-width: 560px;
+      height: 315px;
+    }
+    canvas {
+      background: #000;
+      display: block;
+      margin: 20px auto;
+      border: 2px solid #fff;
+    }
+    .footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="toggleMode()" style="position:absolute; top:10px; right:10px;">🌙</button>
+
+    <img src="profile.jpg" alt="Profile Picture">
+
+    <h1 id="typewriter"></h1>
+
+    <div class="section">
+      <h2>🎯 About Me</h2>
+      <p>Main Mahmud hoon, main video editing aur creative design karta hoon. Meri koshish hoti hai har kaam me perfection lana. Web aur mobile designs me bhi interest hai.</p>
+    </div>
+
+    <div class="section">
+      <h2>📱 Social Links</h2>
+      <a class="btn" href="https://instagram.com/mahmud.hasan_08" target="_blank">Instagram</a>
+      <a class="btn" href="https://youtube.com" target="_blank">YouTube</a>
+      <a class="btn" href="https://wa.me/919999999999" target="_blank">WhatsApp</a>
+    </div>
+
+    <div class="section">
+      <h2>📥 Contact Me</h2>
+      <p>📧 mahmudhasan6595@gmail.com</p>
+      <p>📍 India</p>
+      <p>📞 +91 99999 99999</p>
+    </div>
+
+    <div class="section">
+      <h2>🎬 Featured Video</h2>
+      <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+    </div>
+
+    <div class="section">
+      <h2>🎮 Play a Game</h2>
+      <canvas id="gameCanvas" width="400" height="400"></canvas>
+      <p>Use arrow keys to control the box. Score as much as you can!</p>
+    </div>
+
+    <div class="section footer">
+      <p>© 2025 Mahmud Hasan. All rights reserved.</p>
+    </div>
+  </div>
+
+  <audio autoplay loop hidden>
+    <source src="background.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const text = "The Best of Luck";
+    let i = 0;
+    function typing() {
+      document.getElementById("typewriter").innerText = text.substring(0, i++);
+      if (i <= text.length) setTimeout(typing, 150);
+    }
+    typing();
+
+    function toggleMode() {
+      const body = document.body;
+      if (body.style.background === "black") {
+        body.style.background = "linear-gradient(135deg, #1f1c2c, #928dab)";
+        body.style.color = "white";
+      } else {
+        body.style.background = "black";
+        body.style.color = "white";
+      }
+    }
+
+    // Simple game logic
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    let x = 200, y = 200, size = 20, score = 0;
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(x, y, size, size);
+      ctx.fillStyle = '#0f0';
+      ctx.fillText('Score: ' + score, 10, 10);
+    }
+
+    document.addEventListener('keydown', e => {
+      switch (e.key) {
+        case 'ArrowUp': y -= 10; break;
+        case 'ArrowDown': y += 10; break;
+        case 'ArrowLeft': x -= 10; break;
+        case 'ArrowRight': x += 10; break;
+      }
+      score++;
+      draw();
+    });
+
+    draw();
+  </script>
+</body>
+  </html>
