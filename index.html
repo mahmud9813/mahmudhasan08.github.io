@@ -191,3 +191,138 @@
     }
   </script></body>
 </html>
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mahmud Fight Game</title>
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
+    canvas {
+      display: block;
+      margin: 0 auto;
+      background: url('bg1.jpg') no-repeat center center;
+      background-size: cover;
+      border: 3px solid white;
+    }
+    .controls {
+      text-align: center;
+      margin: 10px;
+    }
+    button {
+      padding: 10px;
+      margin: 5px;
+      font-size: 16px;
+    }
+    #info {
+      text-align: center;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="info">
+    <h1>Fight Game - Mahmud</h1>
+    <p>Level: <span id="level">1</span> | Score: <span id="score">0</span> | Health: <span id="health">100</span></p>
+  </div>  <div class="controls">
+    <button onclick="dx = -3">⬅️</button>
+    <button onclick="dx = 3">➡️</button>
+    <button onclick="if(y >= ground) dy = -12">⬆️</button>
+    <button onmousedown="punch = true" onmouseup="punch = false">🥊</button>
+  </div><canvas id="game" width="600" height="300"></canvas>
+
+  <script>
+    const canvas = document.getElementById('game');
+    const ctx = canvas.getContext('2d');
+
+    let x = 50, y = 250, dx = 0, dy = 0;
+    let ex = 500, ey = 250, edx = -2;
+    let health = 100, level = 1, score = 0, punch = false;
+    const ground = 250;
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'a') dx = -3;
+      if (e.key === 'd') dx = 3;
+      if (e.key === 'w' && y >= ground) dy = -12;
+      if (e.key === ' ') punch = true;
+    });
+    document.addEventListener('keyup', e => {
+      if (e.key === 'a' || e.key === 'd') dx = 0;
+      if (e.key === ' ') punch = false;
+    });
+
+    function resetEnemy() {
+      ex = 600;
+      ey = 250;
+      edx = -2 - level;
+    }
+
+    function levelUp() {
+      level++;
+      score = 0;
+      health = 100;
+      document.getElementById('level').innerText = level;
+      canvas.style.backgroundImage = `url('bg${level}.jpg')`;
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Player
+      ctx.fillStyle = "cyan";
+      ctx.fillRect(x, y, 40, 40);
+
+      // Punch
+      if (punch) {
+        ctx.fillStyle = "red";
+        ctx.fillRect(x + 40, y + 15, 10, 10);
+      }
+
+      // Enemy
+      ctx.fillStyle = "orange";
+      ctx.fillRect(ex, ey, 40, 40);
+
+      // Move logic
+      x += dx;
+      y += dy;
+      if (y < ground) dy += 1; else dy = 0, y = ground;
+      ex += edx;
+
+      // Enemy reset
+      if (ex < -40) resetEnemy();
+
+      // Collision
+      if (x + 40 > ex && x < ex + 40 && Math.abs(y - ey) < 40) {
+        if (punch) {
+          score++;
+          if (score >= 5) levelUp();
+          document.getElementById('score').innerText = score;
+          resetEnemy();
+        } else {
+          health -= 1;
+          document.getElementById('health').innerText = health;
+          if (health <= 0) {
+            alert("Game Over!");
+            health = 100;
+            level = 1;
+            score = 0;
+            x = 50;
+            resetEnemy();
+            document.getElementById('level').innerText = level;
+            document.getElementById('score').innerText = score;
+            document.getElementById('health').innerText = health;
+          }
+        }
+      }
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script></body>
+</html>
