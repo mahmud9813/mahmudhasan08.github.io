@@ -67,13 +67,6 @@
       font-size: 0.9rem;
       color: #888;
     }
-    input[type="text"], input[type="password"] {
-      padding: 8px;
-      margin: 5px;
-      border-radius: 4px;
-      border: none;
-      width: 200px;
-    }
   </style>
 </head>
 <body>
@@ -92,28 +85,20 @@
     <div class="section">
       <h2>📱 Social Links</h2>
       <a class="btn" href="https://instagram.com/mahmud.hasan_08" target="_blank">Instagram</a>
-      <a class="btn" href="https://wa.me/919999999999" target="_blank">WhatsApp</a>
     </div>
 
     <div class="section">
       <h2>📥 Contact Me</h2>
       <p>📧 <a href="mailto:mahmudhasan6595@gmail.com" style="color:white">mahmudhasan6595@gmail.com</a></p>
       <p>📍 India</p>
-      
+      <p>📞 +91 99999 99999</p>
     </div>
 
-    <div class="section" id="loginSection">
-      <h2>🔐 Login to Play the Game</h2>
-      <input type="text" id="username" placeholder="Username" />
-      <input type="password" id="password" placeholder="Password" />
-      <button class="btn" onclick="login()">Login</button>
-      <p id="loginMessage"></p>
-    </div>
-
-    <div class="section" id="gameSection" style="display:none;">
-      <h2>🎮 Play a Game</h2>
-      <canvas id="gameCanvas" width="400" height="400"></canvas>
-      <p>Use arrow keys to control the box. Score as much as you can!</p>
+    <div class="section">
+      <h2>🎮 Play the Ultimate Box Game</h2>
+      <canvas id="gameCanvas" width="500" height="500"></canvas>
+      <p>Use arrow keys to move the box. Try to score high!</p>
+      <p id="scoreDisplay">Score: 0</p>
     </div>
 
     <div class="section footer">
@@ -136,3 +121,34 @@
         body.style.color = "white";
       }
     }
+
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    let x = 240, y = 240, size = 30, score = 0;
+
+    function drawGame() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#00ffcc';
+      ctx.fillRect(x, y, size, size);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '16px Arial';
+      ctx.fillText('Score: ' + score, 10, 20);
+      document.getElementById("scoreDisplay").textContent = 'Score: ' + score;
+    }
+
+    document.addEventListener('keydown', e => {
+      switch (e.key) {
+        case 'ArrowUp': y = Math.max(0, y - 20); break;
+        case 'ArrowDown': y = Math.min(canvas.height - size, y + 20); break;
+        case 'ArrowLeft': x = Math.max(0, x - 20); break;
+        case 'ArrowRight': x = Math.min(canvas.width - size, x + 20); break;
+      }
+      score++;
+      drawGame();
+    });
+
+    drawGame();
+  </script>
+</body>
+</html>
+
