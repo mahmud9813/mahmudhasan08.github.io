@@ -1,0 +1,151 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mahmud Hasan - Portfolio</title>
+  <style>
+    /* Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+      background-attachment: fixed;
+    }
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    header h1 {
+      font-size: 3rem;
+    }
+    nav {
+      margin-top: 20px;
+    }
+    nav a {
+      color: #03a9f4;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #00e5ff;
+    }
+    section {
+      padding: 80px 20px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.05);
+      margin: 30px auto;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 1000px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+    h2 {
+      margin-bottom: 20px;
+      font-size: 2rem;
+      color: #00e5ff;
+    }
+    p {
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      max-width: 500px;
+      margin: 0 auto;
+      margin-top: 30px;
+    }
+    input, textarea {
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+    }
+    button {
+      background-color: #03a9f4;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background-color: #0288d1;
+    }
+    .social-links {
+      margin-top: 20px;
+      font-size: 1.1rem;
+    }
+    .social-links a {
+      color: #03a9f4;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+    footer {
+      background-color: rgba(0, 0, 0, 0.6);
+      text-align: center;
+      padding: 15px;
+      margin-top: 50px;
+    }
+    /* Background Animation */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url('https://www.transparenttextures.com/patterns/stardust.png');
+      opacity: 0.05;
+      z-index: -1;
+      animation: moveBg 30s linear infinite;
+    }
+    @keyframes moveBg {
+      0% { background-position: 0 0; }
+      100% { background-position: 1000px 1000px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mahmud Hasan</h1>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>  <section id="about">
+    <h2>About Me</h2>
+    <p>Hello! I'm Mahmud Hasan. I love working on creative web projects and sharing my ideas. I'm passionate about learning and building digital solutions that look great and work well.</p>
+  </section>  <section id="projects">
+    <h2>Projects</h2>
+    <p>Some of my best projects will be displayed here soon! Stay tuned. 🎨💻</p>
+  </section>  <section id="contact">
+    <h2>Contact Me</h2>
+    <form action="mailto:mahmudhasan6595@gmail.com" method="post" enctype="text/plain">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" placeholder="Your Message" required></textarea>
+      <button type="submit">Send</button>
+    </form>
+    <div class="social-links">
+      <a href="https://instagram.com/mahmud.hasan_08" target="_blank">Instagram</a> |
+      <a href="https://github.com/mahmud9813" target="_blank">GitHub</a> |
+      <a href="mailto:mahmudhasan6595@gmail.com">Email</a>
+    </div>
+  </section>  <footer>
+    <p>&copy; 2025 Mahmud Hasan. All rights reserved.</p>
+  </footer>
+</body>
+</html>
